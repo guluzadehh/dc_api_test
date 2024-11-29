@@ -6,13 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.stereotype.Repository;
-
 import com.dc.stud_api.common.Result;
 import com.dc.stud_api.models.Student;
 import com.dc.stud_api.repository.interfaces.IStudentRepository;
 
-@Repository
 public class MemoryStudentRepository implements IStudentRepository {
     private Map<Integer, Student> _students = new ConcurrentHashMap<>();
 
