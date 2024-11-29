@@ -1,0 +1,19 @@
+.student-creator__errors {
+    color: red;
+    margin-bottom: 20px;
+}
+
+.student-creator__form > div, .student-creator__submit {
+    margin-top: 10px;
+}
+
+.student-list__item {
+    display: flex;
+    align-items: start;
+    margin-top: 5px;
+}
+
+.student-list__item > button {
+    margin-left: 30px;
+    cursor: pointer;
+}
