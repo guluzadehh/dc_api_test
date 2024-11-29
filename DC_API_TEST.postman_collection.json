@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "41843035-5fe7-46ba-99da-cdb6e85ae7b1",
+		"name": "DC_API_TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "35087497"
+	},
+	"item": [
+		{
+			"name": "List Students",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_uri}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"nick\",\n    \"last_name\": \"code\",\n    \"surname\": \"notempty\",\n    \"birthdate\": \"1993-05-09\",\n    \"group\": \"51\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_uri}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Student",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "{{base_uri}}/1"
+			},
+			"response": []
+		}
+	]
+}
