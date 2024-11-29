@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dc.stud_api.common.Result;
 import com.dc.stud_api.models.Student;
+import com.dc.stud_api.repository.RepoError;
 import com.dc.stud_api.repository.interfaces.IStudentRepository;
 
 @Service
@@ -18,24 +20,38 @@ public class StudentService {
         _studentRepo = studentRepo;
     }
 
-    public Result<List<Student>> listStudents() {
-        return new Result<List<Student>>(_studentRepo.getAll(), null);
-    }
+    public Result<List<Student>, ServiceError> listStudents() {
+        Result<List<Student>, RepoError> res = _studentRepo.getAll();
 
-    public Result<Student> createStudent(String fName, String lName, String surname, Date birthdate, Integer group) {
-        Student student = _studentRepo.add(fName, lName, surname, birthdate, group);
-        return new Result<>(student, null);
-    }
-
-    public Result<?> deleteStudent(Integer id) {
-        Student student = _studentRepo.findById(id);
-
-        if (student == null) {
-            return new Result<>(null, ErrorType.STUDENT_NOT_FOUND);
+        if (res.hasError()) {
+            return Result.error(ServiceError.DEFAULT);
         }
 
-        _studentRepo.delete(id);
+        return Result.success(res.getData());
+    }
 
-        return new Result<>(null, null);
+    public Result<Student, ServiceError> createStudent(String fName, String lName, String surname, Date birthdate,
+            Integer group) {
+        Result<Student, RepoError> res = _studentRepo.add(fName, lName, surname, birthdate, group);
+
+        if (res.hasError()) {
+            return Result.error(ServiceError.DEFAULT);
+        }
+
+        return Result.success(res.getData());
+    }
+
+    public Result<?, ServiceError> deleteStudent(Integer id) {
+        Result<?, RepoError> res = _studentRepo.delete(id);
+
+        if (res.hasError()) {
+            if (res.getError() == RepoError.STUDENT_NOT_FOUND) {
+                return Result.error(ServiceError.STUDENT_DOESNT_EXIST);
+            }
+
+            return Result.error(ServiceError.DEFAULT);
+        }
+
+        return Result.success(null);
     }
 }

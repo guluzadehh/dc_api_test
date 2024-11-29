@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Repository;
 
+import com.dc.stud_api.common.Result;
 import com.dc.stud_api.models.Student;
 import com.dc.stud_api.repository.interfaces.IStudentRepository;
 
@@ -22,25 +23,38 @@ public class MemoryStudentRepository implements IStudentRepository {
     }
 
     @Override
-    public Student add(String fName, String lName, String surname, Date birthdate, Integer group) {
+    public Result<Student, RepoError> add(String fName, String lName, String surname, Date birthdate, Integer group) {
         Student student = new Student(fName, lName, surname, birthdate, group);
         student.setId(_students.size() + 1);
         _students.put(student.getId(), student);
-        return student;
+        return Result.success(student);
     }
 
     @Override
-    public void delete(Integer id) {
+    public Result<?, RepoError> delete(Integer id) {
+        Result<?, RepoError> res = findById(id);
+
+        if (res.hasError()) {
+            return res;
+        }
+
         _students.remove(id);
+        return Result.success(null);
     }
 
     @Override
-    public List<Student> getAll() {
-        return new ArrayList<>(_students.values());
+    public Result<List<Student>, RepoError> getAll() {
+        return Result.success(new ArrayList<>(_students.values()));
     }
 
     @Override
-    public Student findById(Integer id) {
-        return _students.get(id);
+    public Result<Student, RepoError> findById(Integer id) {
+        Student student = _students.get(id);
+
+        if (student == null) {
+            return Result.error(RepoError.STUDENT_NOT_FOUND);
+        }
+
+        return Result.success(student);
     }
 }

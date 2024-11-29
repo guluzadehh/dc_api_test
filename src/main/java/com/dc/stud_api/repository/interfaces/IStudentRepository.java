@@ -3,14 +3,16 @@ package com.dc.stud_api.repository.interfaces;
 import java.util.Date;
 import java.util.List;
 
+import com.dc.stud_api.common.Result;
 import com.dc.stud_api.models.Student;
+import com.dc.stud_api.repository.RepoError;
 
 public interface IStudentRepository {
-    Student add(String fName, String lName, String surname, Date birthdate, Integer group);
+    Result<Student, RepoError> add(String fName, String lName, String surname, Date birthdate, Integer group);
 
-    void delete(Integer id);
+    Result<?, RepoError> delete(Integer id);
 
-    List<Student> getAll();
+    Result<List<Student>, RepoError> getAll();
 
-    Student findById(Integer id);
+    Result<Student, RepoError> findById(Integer id);
 }

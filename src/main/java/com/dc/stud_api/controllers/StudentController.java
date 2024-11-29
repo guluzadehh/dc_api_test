@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dc.stud_api.common.Result;
 import com.dc.stud_api.dto.CreateStudentRequest;
 import com.dc.stud_api.models.Student;
-import com.dc.stud_api.services.Result;
 import com.dc.stud_api.services.StudentService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
-import com.dc.stud_api.services.ErrorType;
+import com.dc.stud_api.services.ServiceError;
 
 @RestController
 @RequestMapping("/api/students")
@@ -31,7 +31,7 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<List<Student>> getAllUsers() {
-        Result<List<Student>> res = _studentService.listStudents();
+        Result<List<Student>, ServiceError> res = _studentService.listStudents();
 
         if (res.hasError()) {
             return ResponseEntity.internalServerError().build();
@@ -42,7 +42,7 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<Student> createUser(@Valid @RequestBody CreateStudentRequest request) {
-        Result<Student> res = _studentService.createStudent(request.getFname(), request.getLname(),
+        Result<Student, ServiceError> res = _studentService.createStudent(request.getFname(), request.getLname(),
                 request.getSurname(),
                 request.getBirthdate(), request.getGroup());
 
@@ -55,11 +55,11 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable @NotNull int id) {
-        Result<?> res = _studentService.deleteStudent(id);
+        Result<?, ServiceError> res = _studentService.deleteStudent(id);
 
         if (res.hasError()) {
             switch (res.getError()) {
-                case ErrorType.STUDENT_NOT_FOUND:
+                case ServiceError.STUDENT_DOESNT_EXIST:
                     return ResponseEntity.notFound().build();
                 default:
                     return ResponseEntity.internalServerError().build();
