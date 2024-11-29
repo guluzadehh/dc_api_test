@@ -25,9 +25,11 @@ $(document).ready(function () {
             },
             error: function (xhr, status, error) {
                 const res = xhr.responseJSON;
+                const errorsDiv = $(".student-creator__errors");
+                errorsDiv.empty();
 
                 for (let error of res.errors) {
-                    $(".student-creator__errors").append(`<div>${error}</div>`);
+                    errorsDiv.append(`<div>${error}</div>`);
                 }
             }
         });
