@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC API TEST</title>
+    <link rel="stylesheet" href="styles/bootstrap.grid.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-4 student-creator">
+            <div class="student-creator__errors"></div>
+
+            <form class="student-creator__form" id="student-form">
+                <div>
+                    <label for="first_name">Имя</label>
+                    <input type="text" name="first_name" id="first_name" />
+                </div>
+                <div>
+                    <label for="last_name">Фамилия</label>
+                    <input type="text" name="last_name" id="last_name" />
+                </div>
+                <div>
+                    <label for="surname">Отчество</label>
+                    <input type="text" name="surname" id="surname" />
+                </div>
+                <div>
+                    <label for="birthdate">Дата рождения</label>
+                    <input type="date" name="birthdate" id="birthdate" />
+                </div>
+                <div>
+                    <label for="group">Группа</label>
+                    <input type="number" name="group" id="group" />
+                </div>
+
+                <button type="submit" class="student-creator__submit">Создать</button>
+            </form>
+        </div>
+        <div class="col-8 student-list">
+            <button type="button" class="student-list__refresh" id="student-list-refresh">Обновить</button>
+
+            <div class="student-list__div"></div>
+        </div>
+    </div>
+</body>
+</html>
